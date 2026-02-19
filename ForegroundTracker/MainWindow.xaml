@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:ForegroundTracker"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800"
+        MouseDown="MainWindow_OnMouseDown"
         Activated="MainWindow_OnActivated"
         Deactivated="MainWindow_OnDeactivated"
         GotKeyboardFocus="MainWindow_OnGotKeyboardFocus"

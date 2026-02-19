@@ -70,6 +70,7 @@ public partial class MainWindow : Window
     internal static bool EnableShellHook = true;
     internal static bool EnableCbtHook = true;
     internal static bool EnableUIAutomationFocus = true;
+    internal static bool EnableTitleBarClick = true;
 
     private AutomationFocusChangedEventHandler? uiaFocusHandler;
     private uint shellHookMsgId;
@@ -231,6 +232,14 @@ public partial class MainWindow : Window
         const int HSHELL_WINDOWACTIVATED = 4;
         const int HSHELL_RUDEAPPACTIVATED = 0x8004;
 
+        const int WM_NCLBUTTONDOWN = 0x00A1;
+        const int HTCAPTION = 2;
+
+        if (EnableTitleBarClick && msg == WM_NCLBUTTONDOWN && wParam.ToInt32() == HTCAPTION)
+        {
+            Log("WndProc: Title bar clicked (WM_NCLBUTTONDOWN HTCAPTION)");
+        }
+
         if (EnableWndProc)
         {
             switch (msg)
@@ -330,4 +339,5 @@ public partial class MainWindow : Window
     private void MainWindow_OnDeactivated(object? sender, EventArgs e) { if (EnableWindowActivated) Log("MainWindow.OnDeactivated"); }
     private void MainWindow_OnGotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e) { if (EnableKeyboardFocus) Log("MainWindow.OnGotKeyboardFocus"); }
     private void MainWindow_OnLostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e) { if (EnableKeyboardFocus) Log("MainWindow.OnLostKeyboardFocus"); }
+    private void MainWindow_OnMouseDown(object sender, MouseButtonEventArgs e) => Log("MainWindow: MouseDown");
 }
